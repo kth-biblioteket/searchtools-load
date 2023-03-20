@@ -83,6 +83,7 @@ async function loadMeili() {
             log.info("Total count: " + count)
             for (let i = 0; i < ugusersjson.length; i += parseInt(process.env.BULKSIZE)) {
                 let data = JSON.stringify(ugusersjson.slice(i, i + parseInt(process.env.BULKSIZE)))
+                /*
                 try {
                     axois.post(
                         `${process.env.MEILI_HOST}/indexes/ugusers/documents`,
@@ -99,6 +100,7 @@ async function loadMeili() {
                 } catch(e) {
                     console.log(e)
                 }
+                */
             }
             log.info('Number of users added: ' + ugusersjson.length)
             log.info('Finished loadMeili')
