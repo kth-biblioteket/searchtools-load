@@ -4,6 +4,8 @@ services:
   searchtools-load:
     container_name: "searchtools-load"
     image: ghcr.io/kth-biblioteket/searchtools-load:${REPO_TYPE}
+    env_file:
+      - searchtools-load.env
     restart: "always"
     networks:
       - "apps-net"

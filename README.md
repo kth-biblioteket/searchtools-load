@@ -1,11 +1,10 @@
-#
-KTH Biblioteket searchtools load
+# KTH Biblioteket searchtools load
 
-##
-Laddar data från diverse källor till meilisearch
+## Laddar data från diverse källor till meilisearch
 
+### Install
 
-###
+#### Meili
 ```bash
 
 ### KTH UG
