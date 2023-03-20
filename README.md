@@ -1,5 +1,5 @@
 #
-KTHB Meiliload
+KTH Biblioteket searchtools load
 
 Laddar data från diverse källor till meilisearch
 
