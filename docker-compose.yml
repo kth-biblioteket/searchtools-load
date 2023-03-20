@@ -1,0 +1,13 @@
+version: "3.6"
+
+services:
+  searchtools-load:
+    container_name: "searchtools-load"
+    image: ghcr.io/kth-biblioteket/searchtools-load:${REPO_TYPE}
+    restart: "always"
+    networks:
+      - "apps-net"
+
+networks:
+  apps-net:
+    external: true
