@@ -82,19 +82,23 @@ async function loadMeili() {
         res.on('end', async (result) => {
             log.info("Total count: " + count)
             for (let i = 0; i < ugusersjson.length; i += parseInt(process.env.BULKSIZE)) {
-               let data = JSON.stringify(ugusersjson.slice(i, i + parseInt(process.env.BULKSIZE)))
-               axois.post(
-                `${process.env.MEILI_HOST}/indexes/ugusers/documents`,
-                    data,
-                    {
-                        headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${process.env.MEILI_KEY}`,
-                        },
-                        maxContentLength: Infinity,
-                        maxBodyLength: Infinity,
-                    }
-               )
+                let data = JSON.stringify(ugusersjson.slice(i, i + parseInt(process.env.BULKSIZE)))
+                try {
+                    axois.post(
+                        `${process.env.MEILI_HOST}/indexes/ugusers/documents`,
+                            data,
+                            {
+                                headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${process.env.MEILI_KEY}`,
+                                },
+                                maxContentLength: Infinity,
+                                maxBodyLength: Infinity,
+                            }
+                    ) 
+                } catch(e) {
+                    console.log(e)
+                }
             }
             log.info('Number of users added: ' + ugusersjson.length)
             log.info('Finished loadMeili')
