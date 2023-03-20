@@ -62,7 +62,6 @@ async function loadMeili() {
         });
         res.on('searchEntry', async (entry) => {
             try {
-                console.log(entry.object)
                 if (entry.object.sAMAccountName) {
                     count++
                     if (regexpattern.test(entry.object.sAMAccountName) === false) {
