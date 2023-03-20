@@ -105,5 +105,6 @@ async function loadMeili() {
 }
 
 //cron.schedule(process.env.CRON, () => {
+    console.log(process.env)
     loadMeili()
 //});
