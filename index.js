@@ -61,13 +61,17 @@ async function loadMeili() {
             console.log(searchRequest.messageID)
         });
         res.on('searchEntry', async (entry) => {
-            console.log(entry.object)
-            if (entry.object.sAMAccountName) {
-                count++
-                if (regexpattern.test(entry.object.sAMAccountName) === false) {
-                } else {
-                    ugusersjson.push(entry.object)
-                }
+            try {
+                console.log(entry.object)
+                if (entry.object.sAMAccountName) {
+                    count++
+                    if (regexpattern.test(entry.object.sAMAccountName) === false) {
+                    } else {
+                        ugusersjson.push(entry.object)
+                    }
+                } 
+            } catch (e) {
+                console.log(e)
             }
         });
         res.on('searchReference', (referral) => {
