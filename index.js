@@ -58,9 +58,10 @@ async function loadMeili() {
 
     client.search('dc=ug,dc=kth,dc=se', opts, async (err, res) => {
         res.on('searchRequest', (searchRequest) => {
-            console.log(searchRequest.messageID)
+            console.log(searchRequest.messageId)
         });
         res.on('searchEntry', async (entry) => {
+            console.log(entry)
             if (entry.object.sAMAccountName) {
                 count++
                 if (regexpattern.test(entry.object.sAMAccountName) === false) {
