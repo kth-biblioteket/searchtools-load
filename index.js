@@ -58,10 +58,10 @@ async function loadMeili() {
 
     client.search('dc=ug,dc=kth,dc=se', opts, async (err, res) => {
         res.on('searchRequest', (searchRequest) => {
-            console.log(searchRequest.messageId)
+            console.log(searchRequest.messageID)
         });
         res.on('searchEntry', async (entry) => {
-            console.log(entry)
+            console.log(entry.object)
             if (entry.object.sAMAccountName) {
                 count++
                 if (regexpattern.test(entry.object.sAMAccountName) === false) {
@@ -100,6 +100,6 @@ async function loadMeili() {
     });
 }
 
-cron.schedule(process.env.CRON, () => {
+//cron.schedule(process.env.CRON, () => {
     loadMeili()
-});
+//});
