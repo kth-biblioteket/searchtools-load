@@ -3,9 +3,9 @@
 require('dotenv').config();
 const fs = require('fs');
 const cron = require('node-cron');
-const axois = require('axios')
+const axios = require('axios')
 
-async function loadMeili() {
+async function loadUG() {
     const bunyan = require('bunyan');
 
     var log = bunyan.createLogger({
@@ -85,7 +85,7 @@ async function loadMeili() {
             for (let i = 0; i < ugusersjson.length; i += parseInt(process.env.BULKSIZE)) {
                 let data = JSON.stringify(ugusersjson.slice(i, i + parseInt(process.env.BULKSIZE)))
                 try {
-                    axois.post(
+                    axios.post(
                         `${process.env.MEILI_HOST}/indexes/ugusers/documents`,
                             data,
                             {
@@ -109,7 +109,67 @@ async function loadMeili() {
     });
 }
 
+async function loadKTHAnst() {
+    const bunyan = require('bunyan');
+
+    var log = bunyan.createLogger({
+        name: "meiliload",
+        streams: [{
+            type: 'rotating-file',
+            path: 'meiliload.log',
+            period: '1d',
+            count: 3
+        }]
+    });
+
+    log.info('Started loadMeili KthAnst');
+
+
+    if (process.env.DELETE == 'true') {
+    }
+    try {
+        let response = await axios.get(
+            process.env.KTH_ANST_API,
+        )
+        let kthanst = response.data;
+        kthanst = addid(kthanst)
+        for (let i = 0; i < kthanst.length; i += parseInt(process.env.BULKSIZE)) {
+            let data = JSON.stringify(kthanst.slice(i, i + parseInt(process.env.BULKSIZE)))
+            
+            axios.post(
+                `${process.env.MEILI_HOST}/indexes/kthanst/documents`,
+                    data,
+                    {
+                        headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${process.env.MEILI_KEY}`,
+                        },
+                        maxContentLength: Infinity,
+                        maxBodyLength: Infinity,
+                    }
+            ) 
+
+        }
+        log.info('Number of KthAnst added: ' + kthanst.length)
+        log.info('Finished loadMeili KthAnst')
+    } catch(e) {
+        console.log(e)
+    }
+    
+}
+
+function addid(data){
+    return data.map((item, index) => {
+        return {
+            id: index +1,
+            ...item
+        }
+    });
+
+}
+
 cron.schedule(process.env.CRON, () => {
     console.log(process.env)
-    loadMeili()
+    loadUG()
+    loadKTHAnst()
 });
