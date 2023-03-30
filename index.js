@@ -58,7 +58,7 @@ async function loadUG() {
 
     client.search('dc=ug,dc=kth,dc=se', opts, async (err, res) => {
         res.on('searchRequest', (searchRequest) => {
-            if (process.env.LOG_LEVEL='debug') {
+            if (process.env.LOG_LEVEL=='debug') {
                 console.log(searchRequest.messageID)
             }
         });
