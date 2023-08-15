@@ -19,7 +19,7 @@ async function loadUG() {
     });
 
     const ldap = require('ldapjs');
-    log.info('Started loadMeili');
+    log.info('Started loadMeili UG');
 
     const client = ldap.createClient({
         url: 'ldaps://ug.kth.se',
@@ -128,10 +128,28 @@ async function loadKTHAnst() {
     if (process.env.DELETE == 'true') {
     }
     try {
-        let response = await axios.get(
-            process.env.KTH_ANST_API,
-        )
-        let kthanst = response.data;
+        const perPage = process.env.KTH_ANST_API_PER_PAGE;
+        let page = 1;
+        let kthanst = [];
+
+        while (true) {
+            try {
+                const response = await axios.get(`${process.env.KTH_ANST_API}?page=${page}&per_page=${perPage}`);
+                const records = response.data.data;
+
+                if (records.length === 0) {
+                    break;
+                }
+
+                kthanst = kthanst.concat(records);
+                page++;
+
+            } catch (error) {
+                console.log('Error fetching records:', error);
+                break;
+            }
+        }
+
         kthanst = addid(kthanst)
         for (let i = 0; i < kthanst.length; i += parseInt(process.env.BULKSIZE)) {
             let data = JSON.stringify(kthanst.slice(i, i + parseInt(process.env.BULKSIZE)))
