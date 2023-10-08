@@ -188,7 +188,10 @@ function addid(data){
 
 cron.schedule(process.env.CRON, () => {
     console.log(new Date().toLocaleString());
-    console.log("Searchtools-load started");
+    console.log("Cron job started");
     loadUG()
     loadKTHAnst()
 });
+
+console.log(new Date().toLocaleString());
+console.log("Searchtools-load started");
