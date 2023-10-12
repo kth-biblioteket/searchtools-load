@@ -4,20 +4,19 @@ require('dotenv').config();
 const fs = require('fs');
 const cron = require('node-cron');
 const axios = require('axios')
+const bunyan = require('bunyan');
+
+const log = bunyan.createLogger({
+    name: "meiliload",
+    streams: [{
+        type: 'rotating-file',
+        path: 'meiliload.log',
+        period: '1d',
+        count: 3
+    }]
+});
 
 async function loadUG() {
-    const bunyan = require('bunyan');
-
-    var log = bunyan.createLogger({
-        name: "meiliload",
-        streams: [{
-            type: 'rotating-file',
-            path: 'meiliload.log',
-            period: '1d',
-            count: 3
-        }]
-    });
-
     const ldap = require('ldapjs');
     log.info('Started loadMeili UG');
 
@@ -110,20 +109,7 @@ async function loadUG() {
 }
 
 async function loadKTHAnst() {
-    const bunyan = require('bunyan');
-
-    var log = bunyan.createLogger({
-        name: "meiliload",
-        streams: [{
-            type: 'rotating-file',
-            path: 'meiliload.log',
-            period: '1d',
-            count: 3
-        }]
-    });
-
     log.info('Started loadMeili KthAnst');
-
 
     if (process.env.DELETE == 'true') {
     }
