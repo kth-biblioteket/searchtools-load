@@ -120,7 +120,7 @@ async function loadKTHAnst() {
 
         while (true) {
             try {
-                const response = await axios.get(`${process.env.KTH_ANST_API}?page=${page}&per_page=${perPage}`);
+                const response = await axios.get(`${process.env.KTH_ANST_API}?page=${page}&per_page=${perPage}&apikey=${process.env.KTH_ANST_API_KEY}`);
                 const records = response.data.data;
 
                 if (records.length === 0) {
