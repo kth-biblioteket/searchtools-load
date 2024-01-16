@@ -102,7 +102,14 @@ async function loadUG() {
             }
             log.info('Number of users added: ' + ugusersjson.length)
             log.info('Finished loadMeili')
-            ugusersjson = []
+            ugusersjson = [];
+            client.unbind((err) => {
+                if (err) {
+                    log.error('Error unbinding LDAP client:', err);
+                } else {
+                    log.info('LDAP client unbound successfully.');
+                }
+            });
             return;
         });
     });
